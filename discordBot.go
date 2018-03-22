@@ -14,7 +14,7 @@ import (
 )
 
 func main(){
-	session, err := discord.New("Bot NDI2MTAwNjQzODMzMzE1MzI4.DZRXcg.0N9oJ7YIlOJIoZCHAmq2YHVVpuk")
+	session, err := discord.New("Bot TOKEN")
 		
 	if err != nil {
 		fmt.Println(err)
@@ -36,13 +36,20 @@ func main(){
 
 func newMessage(s *discord.Session, m *discord.MessageCreate){
 	println := fmt.Println
-	var outputMessage = ""
+	outputMessage := ""
 	messageContent := m.Content
 	if m.Author.Bot {
 		return
 	}
 
 	switch {
+	case strings.HasPrefix(messageContent, "9help"):
+		outputMessage = `I'm glad you want to know more about me! ^^ 
+Since I'm called NiN3Bot, all my commands start with the prefix '9'. 
+My commands include: 9font, 9art, 9repeat, 9sayhi, 9predict, 9time.
+Examples: 
+'9font Hello there' 
+'9repeat NiN3Bot likes to repeat things.'`
 	case strings.HasPrefix(messageContent, "9img"):
 		// Doesn't send the image yet, it generates the SVG but I need to work on embedding the SVG somehow :thinking:
 		alphabet := [26]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
@@ -54,6 +61,7 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 			randomLetter := alphabet[randomNumber]
 			randomPhrase += randomLetter 
 		}
+		
 		fmt.Println(randomPhrase)
 		outputMessage = "Generating image based on string: " + randomPhrase
 		args := map[string]string{"generator": "squares", "phrase" : randomPhrase}
@@ -84,7 +92,7 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 		var randomNumber = rand.Intn(16)
 		var randomAsciiArt = asciiArtArray[randomNumber]
 		println(randomAsciiArt)
-		 outputMessage = randomAsciiArt
+		outputMessage = randomAsciiArt
 	case strings.HasPrefix(messageContent, "9predict"):
 		var randomNumber = rand.Intn(5)
 		var a [5]string 
@@ -105,7 +113,7 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 		outputMessage = "Hello o/"
 		
 	case strings.HasPrefix(messageContent, "9repeat"):
-		messageContent = strings.TrimPrefix(messageContent, "9art ")
+		messageContent = strings.TrimPrefix(messageContent, "9repeat ")
 		outputMessage = messageContent
 	
 	case strings.HasPrefix(messageContent, "9time"):
