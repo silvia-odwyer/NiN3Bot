@@ -14,7 +14,7 @@ import (
 )
 
 func main(){
-	session, err := discord.New("Bot TOKEN")
+	session, err := discord.New("Bot NDI2MTAwNjQzODMzMzE1MzI4.DZRXcg.0N9oJ7YIlOJIoZCHAmq2YHVVpuk")
 		
 	if err != nil {
 		fmt.Println(err)
@@ -32,14 +32,13 @@ func main(){
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, syscall.SIGSEGV, syscall.SIGHUP)
 	<-sc
-	
 }
 
 func newMessage(s *discord.Session, m *discord.MessageCreate){
 	println := fmt.Println
 	var outputMessage = ""
 	messageContent := m.Content
-	if m.Author.Bot  {
+	if m.Author.Bot {
 		return
 	}
 
@@ -61,45 +60,66 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 		generatedPattern := geopattern.Generate(args)
 		println(generatedPattern)
 
-	case messageContent == "9art":
-		outputMessage = "Ⓓ"
+	case strings.HasPrefix(messageContent, "9font"):
+		messageContent = strings.TrimPrefix(messageContent, "9font ")
+		circularFontMap := map[rune]string{
+			'A':"Ⓐ", 'B':"Ⓑ", 'C':"Ⓒ", 'D':"Ⓓ", 'E':"Ⓔ", 'F':"Ⓕ", 'G':"Ⓖ", 'H':"Ⓗ", 'I':"Ⓘ", 'J':"Ⓙ", 'K':"Ⓚ", 
+			'L':"Ⓛ", 'M':"Ⓜ", 'N':"Ⓝ", 'O':"Ⓞ", 'P':"Ⓟ", 'Q':"Ⓠ", 'R':"Ⓡ", 'S':"Ⓢ", 'T':"Ⓣ", 'U':"Ⓤ", 'V':"Ⓥ", 
+			'W':"Ⓦ", 'X':"Ⓧ", 'Y':"Ⓨ", 'Z':"Ⓩ", 'a':"ⓐ", 'b':"ⓑ", 'c':"ⓒ", 'd':"ⓓ", 
+			'e':"ⓔ", 'f':"ⓕ", 'g':"ⓖ", 'h':"ⓗ", 'i':"ⓘ", 'j':"ⓙ", 'k':"ⓚ", 'l':"ⓛ", 'm':"ⓜ", 'n':"ⓝ", 'o':"ⓞ", 
+			'p':"ⓟ", 'q':"ⓠ", 'r':"ⓡ", 's':"ⓢ", 't':"ⓣ", 'u':"ⓤ", 'v':"ⓥ", 'w':"ⓦ", 'x':"ⓧ", 'y':"ⓨ", 'z':"ⓩ", ' ':" "}
 
+		var convertedMessage = ""
+		for _, c := range messageContent{
+			var convertedCharacter = circularFontMap[c]
+			convertedMessage += convertedCharacter
+		}
+		outputMessage = convertedMessage
 
+		// for key, value := range circularFontMap{
+		// }
+			
+	case strings.HasPrefix(messageContent, "9art"):
+		asciiArtArray := [16]string{"♫ *´” ¸.•´¸.•*´¨) ¸.•*¨) ♫ ♪ ¸.•´ (¸.• ♫ ♪", "[̲̅$̲̅(̲̅5̲̅)̲̅$̲̅]", "(•_•)", "◈☻◈☻◈☻◈☻◈☻◈☻◈☻◈☻◈☻◈☻◈☻◈☻", "(•_•) ( •_•)>⌐■-■ (⌐■_■)", "(¬_¬)", "ˁ˚ᴥ˚ˀ", "¸¸♬·¯·♩¸¸♪·¯·♫¸¸", "[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]", "✈__✈", "¯(ツ)_/¯" , "( ‘-’)人(ﾟ_ﾟ )", "¯㋡_/¯", "{•̃̾_•̃̾}", "〴⋋_⋌〵", "UPLOADING VIRUS.EXE [████████████████] 99%"}
+		var randomNumber = rand.Intn(16)
+		var randomAsciiArt = asciiArtArray[randomNumber]
+		println(randomAsciiArt)
+		 outputMessage = randomAsciiArt
 	case strings.HasPrefix(messageContent, "9predict"):
-			var randomNumber = rand.Intn(5)
-			var a [5]string 
-			a[0] = "Tomorrow will be your lucky day."
-			a[1] = "Looks like good luck is on the way!"
-			a[2] = "Hmm, sorry, but I don't seem to be in a great mood for making predictions right now. :/"
-			a[3] =  "Watch out for a clue tomorrow."
-			a[4] = "You should keep an eye out for something cool tomorrow."
+		var randomNumber = rand.Intn(5)
+		var a [5]string 
+		a[0] = "Tomorrow will be your lucky day."
+		a[1] = "Looks like good luck is on the way!"
+		a[2] = "Next week is looking bright for you ^^ "
+		a[3] =  "Watch out for a clue tomorrow."
+		a[4] = "You should keep an eye out for something cool tomorrow."
 		
-			var randomPrediction = a[randomNumber]
-			var stringOfNumber = strconv.Itoa(randomNumber)
-			var finalPrediction = "Your lucky number tomorrow is " + stringOfNumber
-			finalPrediction = randomPrediction + "\n" + finalPrediction
-			println(finalPrediction)
-			outputMessage = finalPrediction
+		var randomPrediction = a[randomNumber]
+		var stringOfNumber = strconv.Itoa(randomNumber)
+		var finalPrediction = "Your lucky number tomorrow is " + stringOfNumber
+		finalPrediction = randomPrediction + "\n" + finalPrediction
+		println(finalPrediction)
+		outputMessage = finalPrediction
 		
 	case strings.HasPrefix(messageContent, "9sayhi"):
-			outputMessage = "Hello o/"
+		outputMessage = "Hello o/"
 		
 	case strings.HasPrefix(messageContent, "9repeat"):
-			outputMessage = m.Content
+		messageContent = strings.TrimPrefix(messageContent, "9art ")
+		outputMessage = messageContent
 	
 	case strings.HasPrefix(messageContent, "9time"):
-			var currentTime = time.Now()
+		var currentTime = time.Now()
+		// t, _ := time.Parse(time.UnixDate, outputMessage)
+		// println(t)
 	
-			// t, _ := time.Parse(time.UnixDate, outputMessage)
-			// println(t)
-	
-			// Yeah, I've got two ways of formatting the time, still have to decide which I prefer.
-			var formattedTime = currentTime.Format(time.RFC3339)
-			println(formattedTime)
-			//outputMessage = formattedTime
+		// Yeah, I've got two ways of formatting the time, still have to decide which I prefer.
+		var formattedTime = currentTime.Format(time.RFC3339)
+		println(formattedTime)
+		//outputMessage = formattedTime
 			
-			formattedTime2 := currentTime.Format("3:04 PM, Monday Jan 2 2006 MST")
-			outputMessage = formattedTime2
+		formattedTime2 := currentTime.Format("3:04 PM, Monday Jan 2 2006 MST")
+		outputMessage = formattedTime2
 	} 
 	s.ChannelMessageSend(m.ChannelID, outputMessage)
 
