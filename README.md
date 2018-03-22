@@ -1,7 +1,13 @@
 # NiN3Bot
-Pronounced "NineBot" 
-A very, very basic Discord bot, created using the knowledge I've learned from the Go Mentorship program. (Danke, Noah)
+(Pronounced "NineBot")
+
+A very, very basic Discord bot, created using the knowledge I've learned from UCC Netsoc's Go Mentorship program.
+
+Danke, @Strum355 :')
+
+## What Can NiN3Bot Do?
 In short, NiN3Bot likes to get random numbers and select certain items based on those numbers. /s
+That's as far as I've gotten with it thus far.
 
 ## Commands 
 `9art`	-> Gets a random piece of one-line ASCII art. 
@@ -17,7 +23,7 @@ In short, NiN3Bot likes to get random numbers and select certain items based on 
 `9sayhi`    -> NiN3Bot strives to be a friendly bot, so it'll say hi.
 
 ## Developments Coming Soon
-- More fonts will be added.
-- Random Unicode font generator 
-- Embed SVGs somehow :thinking:
+- More fonts will be added to the 9font command.
+- Might add a random Unicode font generator, so that all sorts of strange yet quirky messages can be generated.
+- Embed SVGs somehow `:thinking:`
 - . . . and other things that are still unplanned but may be on the way.
