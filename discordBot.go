@@ -45,11 +45,11 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 	switch {
 	case strings.HasPrefix(messageContent, "9help"):
 		outputMessage = `I'm glad you want to know more about me! ^^ 
-Since I'm called NiN3Bot, all my commands start with the prefix '9'. 
-My commands include: 9font, 9art, 9repeat, 9sayhi, 9predict, 9time.
-Examples: 
-'9font Hello there' 
-'9repeat NiN3Bot likes to repeat things.'`
+		Since I'm called NiN3Bot, all my commands start with the prefix '9'. 
+		My commands include: 9font, 9art, 9repeat, 9sayhi, 9predict, 9time.
+		Examples: 
+		'9font Hello there' 
+		'9repeat NiN3Bot likes to repeat things.'`
 	case strings.HasPrefix(messageContent, "9img"):
 		// Doesn't send the image yet, it generates the SVG but I need to work on embedding the SVG somehow :thinking:
 		alphabet := [26]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
