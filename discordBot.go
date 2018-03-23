@@ -14,7 +14,7 @@ import (
 )
 
 func main(){
-	session, err := discord.New("Bot TOKEN")
+	session, err := discord.New("Bot ")
 		
 	if err != nil {
 		fmt.Println(err)
@@ -45,10 +45,10 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 	switch {
 	case strings.HasPrefix(messageContent, "9help"):
 		outputMessage = `I'm glad you want to know more about me! ^^ 
-		Since I'm called NiN3Bot, all my commands start with the prefix '9'. 
-		My commands include: 9font, 9art, 9repeat, 9sayhi, 9predict, 9time.
-		Examples: 
-		'9font Hello there' 
+	Since I'm called NiN3Bot, all my commands start with the prefix '9'. 
+	My commands include: 9font, 9art, 9repeat, 9sayhi, 9predict, 9time.
+	Examples: 
+	'9font Hello there' 
 		'9repeat NiN3Bot likes to repeat things.'`
 	case strings.HasPrefix(messageContent, "9img"):
 		// Doesn't send the image yet, it generates the SVG but I need to work on embedding the SVG somehow :thinking:
@@ -69,17 +69,33 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 		println(generatedPattern)
 
 	case strings.HasPrefix(messageContent, "9font"):
-		messageContent = strings.TrimPrefix(messageContent, "9font ")
+		fontMap := map[rune]string{}
 		circularFontMap := map[rune]string{
 			'A':"Ⓐ", 'B':"Ⓑ", 'C':"Ⓒ", 'D':"Ⓓ", 'E':"Ⓔ", 'F':"Ⓕ", 'G':"Ⓖ", 'H':"Ⓗ", 'I':"Ⓘ", 'J':"Ⓙ", 'K':"Ⓚ", 
 			'L':"Ⓛ", 'M':"Ⓜ", 'N':"Ⓝ", 'O':"Ⓞ", 'P':"Ⓟ", 'Q':"Ⓠ", 'R':"Ⓡ", 'S':"Ⓢ", 'T':"Ⓣ", 'U':"Ⓤ", 'V':"Ⓥ", 
 			'W':"Ⓦ", 'X':"Ⓧ", 'Y':"Ⓨ", 'Z':"Ⓩ", 'a':"ⓐ", 'b':"ⓑ", 'c':"ⓒ", 'd':"ⓓ", 
 			'e':"ⓔ", 'f':"ⓕ", 'g':"ⓖ", 'h':"ⓗ", 'i':"ⓘ", 'j':"ⓙ", 'k':"ⓚ", 'l':"ⓛ", 'm':"ⓜ", 'n':"ⓝ", 'o':"ⓞ", 
 			'p':"ⓟ", 'q':"ⓠ", 'r':"ⓡ", 's':"ⓢ", 't':"ⓣ", 'u':"ⓤ", 'v':"ⓥ", 'w':"ⓦ", 'x':"ⓧ", 'y':"ⓨ", 'z':"ⓩ", ' ':" "}
+		monospaceFontMap := map[rune]string{'A':"𝙰", 'B':"𝙱", 'C':"𝙲", 'D':"𝙳", 'E':"𝙴", 'F':"𝙵", 'G':"𝙶", 'H':"𝙷", 'I':"𝙸", 'J':"𝙹", 'K':"𝙺", 'L':"𝙻", 'M':"𝙼", 'N':"𝙽", 'O':"𝙾", 'P':"𝙿", 'Q':"𝚀", 'R':"𝚁", 'S':"𝚂", 'T':"𝚃", 'U':"𝚄", 'V':"𝚅", 'W':"𝚆", 'X':"𝚇", 'Y':"𝚈", 'Z':"𝚉", 'a':"𝚊", 'b':"𝚋", 'c':"𝚌", 'd':"𝚍", 'e':"𝚎", 'f':"𝚏", 'g':"𝚐", 'h':"𝚑", 'i':"𝚒", 'j':"𝚓", 'k':"𝚔", 'l':"𝚕", 'm':"𝚖", 'n':"𝚗", 'o':"𝚘", 'p':"𝚙", 'q':"𝚚", 'r':"𝚛", 's':"𝚜", 't':"𝚝", 'u':"𝚞", 'v':"𝚟", 'w':"𝚠", 'x':"𝚡", 'y':"𝚢", 'z':"𝚣"}
+		
+		messageContent = strings.TrimPrefix(messageContent, "9font ")
+		switch{
+		case strings.HasPrefix(messageContent, "c "):
+			messageContent = strings.TrimPrefix(messageContent, "c ")
+			fontMap = circularFontMap
+		
+		case strings.HasPrefix(messageContent, "m "):
+			messageContent = strings.TrimPrefix(messageContent, "m ")
 
+			fontMap = monospaceFontMap
+		
+		default:
+			fontMap = circularFontMap
+		}
+		
 		var convertedMessage = ""
 		for _, c := range messageContent{
-			var convertedCharacter = circularFontMap[c]
+			var convertedCharacter = fontMap[c]
 			convertedMessage += convertedCharacter
 		}
 		outputMessage = convertedMessage
@@ -95,14 +111,9 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 		outputMessage = randomAsciiArt
 	case strings.HasPrefix(messageContent, "9predict"):
 		var randomNumber = rand.Intn(5)
-		var a [5]string 
-		a[0] = "Tomorrow will be your lucky day."
-		a[1] = "Looks like good luck is on the way!"
-		a[2] = "Next week is looking bright for you ^^ "
-		a[3] =  "Watch out for a clue tomorrow."
-		a[4] = "You should keep an eye out for something cool tomorrow."
+		predictionList := [...]string{"Tomorrow will be your lucky day.", "Looks like good luck is on the way!", "Next week is looking bright for you ^^", "Watch out for a clue tomorrow.", "You should keep an eye out for something cool tomorrow."}
 		
-		var randomPrediction = a[randomNumber]
+		var randomPrediction = predictionList[randomNumber]
 		var stringOfNumber = strconv.Itoa(randomNumber)
 		var finalPrediction = "Your lucky number tomorrow is " + stringOfNumber
 		finalPrediction = randomPrediction + "\n" + finalPrediction
