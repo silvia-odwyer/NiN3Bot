@@ -14,7 +14,7 @@ import (
 )
 
 func main(){
-	session, err := discord.New("Bot NDI2NDM5MTYyNDUxODUzMzE0.DZcMWw.No77bvTWaRD9OEDczITsHf7XHVA")
+	session, err := discord.New("Bot TOKEN ID")
 		
 	if err != nil {
 		fmt.Println(err)
