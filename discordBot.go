@@ -9,18 +9,21 @@ import (
 	"strconv"
 	"time"
 	"strings"
+
 	geopattern "github.com/pravj/geopattern"
 	discord "github.com/bwmarrin/discordgo"
 )
 
 func main(){
-	session, err := discord.New("Bot NDI2NDM5MTYyNDUxODUzMzE0.DZcMWw.No77bvTWaRD9OEDczITsHf7XHVA")
+	//encodedJsonToken, _ := json.Marshal("TOKEN GOES HERE")
+	session, err := discord.New("Bot ")
 		
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	session.AddHandler(newMessage)
+
 	fmt.Println("NiN3Bot has connected :)")
 	defer session.Close()
 
@@ -142,7 +145,23 @@ func newMessage(s *discord.Session, m *discord.MessageCreate){
 			
 		formattedTime2 := currentTime.Format("3:04 PM, Monday Jan 2 2006 MST")
 		outputMessage = formattedTime2
+		var message_id = m.ID
+		outputMessage += message_id
+	case strings.HasPrefix(messageContent, "9qr"):
+		
+		var randomPhrase = ""
+		for i := 0; i < 100; i++ {
+			randomNumber := rand.Intn(26)
+			println(randomNumber)
+			randomLetter := alphabet[randomNumber]
+			randomPhrase += randomLetter 
+		}
+		outputMessage = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + randomPhrase;
+
+
+		s.ChannelMessageSend(m.ChannelID, outputMessage)
+		s.MessageReactionAdd(m.ChannelID, message_id, "U+1F603") 
 	} 
-	s.ChannelMessageSend(m.ChannelID, outputMessage)
+
 
 }
